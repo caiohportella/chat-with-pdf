@@ -5,8 +5,8 @@ import { adminDb } from "@/lib/firebase/firebaseAdmin";
 import { generateLangchainCompletion } from "@/lib/langchain";
 import { auth } from "@clerk/nextjs/server";
 
-const FREE_LIMIT = 3;
-const PRO_LIMIT = 100;
+const PRO_LIMIT = 20;
+const FREE_LIMIT = 2;
 
 export const askQuestion = async (id: string, question: string) => {
   auth().protect();
@@ -25,8 +25,25 @@ export const askQuestion = async (id: string, question: string) => {
   const userMessages = chatSnapshot.docs.filter(
     (doc) => doc.data().role === "human"
   );
+  const userRef = await adminDb.collection("users").doc(userId!).get();
 
-  // limit pro or free users accordinly
+  if (!userRef.data()?.hasActiveMembership) {
+    if (userMessages.length >= FREE_LIMIT) {
+      return {
+        success: false,
+        message: `You need to upgrade your account to ask more than ${FREE_LIMIT} questions.`,
+      };
+    }
+  }
+
+  if(!userRef.data()?.hasActiveMembership) {
+    if(userMessages.length >= PRO_LIMIT) {
+      return {
+        success: false,
+        message: `You have reached the limit of ${PRO_LIMIT} questions per document.`,
+      };
+    }
+  }
 
   const userMessage: Message = {
     role: "human",

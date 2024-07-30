@@ -11,10 +11,14 @@ import {
 } from "lucide-react";
 import useUpload, { StatusText } from "@/hooks/useUpload";
 import { useRouter } from "next/navigation";
+import useSubscription from "@/hooks/useSubscription";
+import { useToast } from "./ui/use-toast";
 
 const FileUploader = () => {
   const { progress, status, fileId, handleUpload } = useUpload();
+  const { isOverFileLimit, filesLoading } = useSubscription();
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (fileId) {
@@ -22,27 +26,37 @@ const FileUploader = () => {
     }
   }, [fileId, router]);
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
 
-    if (file) {
-      await handleUpload(file);
-    } else {
-      //toast
-    }
-  }, [handleUpload]);
+      if (file) {
+        if (!isOverFileLimit && !filesLoading) {
+          await handleUpload(file);
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Free plan file limit reached",
+            description:
+              "You've reached the maximum number of files allowed for your account. Please upgrade your plan to add more documents.",
+          });
+        }
+      }
+    },
+    [handleUpload, isOverFileLimit, filesLoading, toast]
+  );
 
   const statusIcons: { [key in StatusText]: JSX.Element } = {
     [StatusText.UPLOADING]: (
-      <RocketIcon className="h-20 w-20 text-indigo-600" />
+      <RocketIcon className="h-20 w-20 text-blue-600" />
     ),
     [StatusText.UPLOADED]: (
-      <CheckCircleIcon className="h-20 w-20 text-indigo-600" />
+      <CheckCircleIcon className="h-20 w-20 text-blue-600" />
     ),
     [StatusText.GENERATING]: (
-      <HammerIcon className="h-20 w-20 text-indigo-600 animate-bounce" />
+      <HammerIcon className="h-20 w-20 text-blue-600 animate-bounce" />
     ),
-    [StatusText.SAVING]: <SaveIcon className="h-20 w-20 text-indigo-600" />,
+    [StatusText.SAVING]: <SaveIcon className="h-20 w-20 text-blue-600" />,
   };
 
   const { getRootProps, getInputProps, isDragActive, isFocused, isDragAccept } =
@@ -59,7 +73,7 @@ const FileUploader = () => {
       {uploadInProgress && (
         <div className="mt-32 flex flex-col justify-center items-center gap-5">
           <div
-            className={`radial-progress bg-indigo-300 text-white border-indigo-600 border-4 ${
+            className={`radial-progress bg-blue-300 text-white border-blue-600 border-4 ${
               progress === 100 && "hidden"
             }`}
             role="progressbar"
@@ -77,15 +91,15 @@ const FileUploader = () => {
           {statusIcons[status!]}
 
           {/* @ts-ignore */}
-          <p className="text-indigo-600 animate-pulse">{status}</p>
+          <p className="text-blue-600 animate-pulse">{status}</p>
         </div>
       )}
 
       {!uploadInProgress && (
         <div
           {...getRootProps()}
-          className={`p-10 border-2 border-dashed border-indigo-600 text-indigo-600 mt-10 w-[90%] rounded-lg h-96 flex items-center justify-center ${
-            isFocused || isDragAccept ? "bg-indigo-300" : "bg-indigo-100"
+          className={`p-10 border-2 border-dashed border-blue-600 text-blue-600 mt-10 w-[90%] rounded-lg h-96 flex items-center justify-center ${
+            isFocused || isDragAccept ? "bg-blue-300" : "bg-blue-100"
           }`}
         >
           <input {...getInputProps()} />

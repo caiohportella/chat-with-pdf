@@ -22,7 +22,7 @@ const ChatToFile = async ({ params: { id } }: { params: { id: string } }) => {
       <div className="col-span-5 lg:col-span-2 overflow-y-auto">
         <Chat id={id} />
       </div>
-      <div className="col-span-5 lg:col-span-3 bg-gray-100 border-r-2 lg:border-indigo-600 lg:-order-1 overflow-auto">
+      <div className="col-span-5 lg:col-span-3 bg-gray-100 border-r-2 lg:border-blue-600 lg:-order-1 overflow-auto">
         <PDFViewer url={url} />
       </div>
     </div>

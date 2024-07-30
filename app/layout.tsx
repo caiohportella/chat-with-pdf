@@ -3,7 +3,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
-  title: "Chat With PDF",
+  title: "PDFriendly",
   description: "Your AI assistant for clumbersome PDFs",
 };
 

@@ -51,11 +51,11 @@ export default function Home() {
   ];
 
   return (
-    <main className="flex-1 overflow-scroll p-2 lg:p-5 bg-gradient-to-bl from-white to-indigo-600">
+    <main className="flex-1 overflow-scroll p-2 lg:p-5 bg-gradient-to-bl from-white to-blue-600">
       <div className="bg-white py-24 sm:py-32 rounded-md drop-shadow-xl">
         <div className="flex flex-col justify-center items-center mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl sm:text-center">
-            <h2 className="text-base font-semibold leading-7 text-indigo-600">
+            <h2 className="text-base font-semibold leading-7 text-blue-600">
               Your Interactive Document Companion
             </h2>
 
@@ -65,11 +65,11 @@ export default function Home() {
 
             <p className="mt-6 text-lg leading-8 text-gray-600">
               Introducing{" "}
-              <span className="font-bold text-indigo-600">Chat with PDF.</span>{" "}
+              <span className="font-bold text-blue-600">PDFriendly.</span>{" "}
               <br /> <br />
               Upload your document, and our chatbot will answer questions,
               summarize content and answer all your Qs. Ideal for everyone,{" "}
-              <span className="text-indigo-600">Chat with PDF</span> turns
+              <span className="text-blue-600">PDFriendly</span> turns
               static documents into{" "}
               <span className="font-bold">dynamic conversations</span>, enhacing
               productivity 10x fold effortlessly.
@@ -84,7 +84,7 @@ export default function Home() {
         <div className="relative overflow-hidden pt-16">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <Image
-              src="https://i.imgur.com/VciRSTI.png"
+              src="https://img001.prntscr.com/file/img001/bv4_G0IeTOizhrRoINrVgA.png"
               alt="App screenshot"
               width={2432}
               height={1442}
@@ -104,7 +104,7 @@ export default function Home() {
                 <dt className="inline font-semibold text-gray-900">
                   <feature.icon
                     aria-hidden
-                    className="absolute left-1 top-1 h-5 w-5 text-indigo-600"
+                    className="absolute left-1 top-1 h-5 w-5 text-blue-600"
                   />
                 </dt>{" "}
                 <dd>{feature.description}</dd>

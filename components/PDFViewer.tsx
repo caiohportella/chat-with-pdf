@@ -95,7 +95,7 @@ const PDFViewer = ({ url }: { url: string }) => {
       </div>
 
       {!file ? (
-        <Loader2Icon className="h-20 w-20 animate-spin text-indigo-600 mt-20" />
+        <Loader2Icon className="h-20 w-20 animate-spin text-blue-600 mt-20" />
       ) : (
         <Document
           loading={null}

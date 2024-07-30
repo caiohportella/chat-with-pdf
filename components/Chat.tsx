@@ -10,6 +10,7 @@ import { useUser } from "@clerk/nextjs";
 import { collection, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 import ChatMessage from "./ChatMessage";
+import { useToast } from "./ui/use-toast";
 
 export type Message = {
   id?: string;
@@ -27,13 +28,15 @@ const Chat = ({ id }: { id: string }) => {
 
   const bottomOfChatRef = useRef<HTMLDivElement>(null);
 
-  const [snapshot, loading, error] = useCollection(
+  const [snapshot, loading] = useCollection(
     user &&
       query(
         collection(db, "users", user.id, "files", id, "chat"),
         orderBy("createdAt", "asc")
       )
   );
+
+  const { toast } = useToast();
 
 
   useEffect(() => {
@@ -83,6 +86,12 @@ const Chat = ({ id }: { id: string }) => {
       const { success, message } = await askQuestion(id, q);
 
       if (!success) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: message,
+        })
+
         setMessages((prev) =>
           prev.slice(0, prev.length - 1).concat([
             {
@@ -101,7 +110,7 @@ const Chat = ({ id }: { id: string }) => {
       <div className="flex-1 w-full">
         {loading ? (
           <div className="flex justify-center items-center">
-            <Loader2Icon className="animate-spin h-20 w-20 text-indigo-600 mt-20" />
+            <Loader2Icon className="animate-spin h-20 w-20 text-blue-600 mt-20" />
           </div>
         ) : (
           <div className="p-5">
@@ -127,7 +136,7 @@ const Chat = ({ id }: { id: string }) => {
 
       <form
         onSubmit={handleSubmit}
-        className="flex sticky bottom-0 space-x-2 p-5 bg-indigo-600/75"
+        className="flex sticky bottom-0 space-x-2 p-5 bg-blue-600/75"
       >
         <Input
           placeholder="Ask a question..."
@@ -137,7 +146,7 @@ const Chat = ({ id }: { id: string }) => {
 
         <Button type="submit" disabled={!input || isPending}>
           {isPending ? (
-            <Loader2Icon className="animate-spin text-indigo-600" />
+            <Loader2Icon className="animate-spin text-blue-600" />
           ) : (
             "Ask"
           )}
