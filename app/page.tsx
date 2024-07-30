@@ -68,7 +68,7 @@ export default function Home() {
               <span className="font-bold text-indigo-600">Chat with PDF.</span>{" "}
               <br /> <br />
               Upload your document, and our chatbot will answer questions,
-              summarize content and answer all your Qs. Ideal for everyone,
+              summarize content and answer all your Qs. Ideal for everyone,{" "}
               <span className="text-indigo-600">Chat with PDF</span> turns
               static documents into{" "}
               <span className="font-bold">dynamic conversations</span>, enhacing
