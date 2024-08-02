@@ -30,7 +30,7 @@ export const createCheckoutSession = async (userDetails: UserDetails) => {
     await adminDb
       .collection("users")
       .doc(userId)
-      .set({ stripeCustomerId: customer.id });
+      .set({ stripeCustomerId: customer.id, hasActiveMembership: true });
 
     stripeCustomerId = customer.id;
   }
@@ -47,7 +47,7 @@ export const createCheckoutSession = async (userDetails: UserDetails) => {
     payment_method_types: ["card", "boleto"],
     allow_promotion_codes: true,
     success_url: `${getBaseUrl()}/dashboard?upgrade=true`,
-    cancel_url: `${getBaseUrl()}/upgrade`,
+    cancel_url: `${getBaseUrl()}/dashboard/upgrade`,
   });
 
   return session.id;

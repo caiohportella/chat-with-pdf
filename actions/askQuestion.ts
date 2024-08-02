@@ -25,6 +25,7 @@ export const askQuestion = async (id: string, question: string) => {
   const userMessages = chatSnapshot.docs.filter(
     (doc) => doc.data().role === "human"
   );
+  
   const userRef = await adminDb.collection("users").doc(userId!).get();
 
   if (!userRef.data()?.hasActiveMembership) {

@@ -2,12 +2,16 @@
 
 import { generateEmbeddings } from "@/actions/generateEmbeddings";
 import { db, storage } from "@/lib/firebase/firebase";
+import { adminDb } from "@/lib/firebase/firebaseAdmin";
 import { useUser } from "@clerk/nextjs";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+
+const PRO_LIMIT = 20;
+const FREE_LIMIT = 2;
 
 export enum StatusText {
   UPLOADING = "Uploading file...",
@@ -28,7 +32,7 @@ const useUpload = () => {
   const handleUpload = async (file: File) => {
     if (!user || !file) return;
 
-    //free/pro plan limitations
+   // Check if user has reached free plan limit
 
     const fileIdToUploadTo = uuidv4();
 
